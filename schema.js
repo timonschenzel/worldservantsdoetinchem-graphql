@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 let {
   GraphQLObjectType,
   GraphQLString,
@@ -17,6 +19,27 @@ let {
 // } from 'graphql';
 
 const Db = require('./db');
+
+Person = new GraphQLObjectType({
+  name: 'Person',
+  description: 'Retrieve a person',
+  fields() {
+    return {
+      name: {
+        type: GraphQLString,
+        resolve (person) {
+          return person.name;
+        }
+      },
+      photo: {
+        type: GraphQLString,
+        resolve (person) {
+          return person.photo;
+        }
+      }
+    }
+  }
+});
 
 const Page = new GraphQLObjectType({
   name: 'Page',
@@ -131,6 +154,24 @@ const Query = new GraphQLObjectType({
   description: 'Root query object',
   fields: () => {
     return {
+      person: {
+        type: new GraphQLList(Person),
+        args: {
+          name: {
+            type: GraphQLString
+          },
+        },
+        async resolve (root, args) {
+          let data = await axios.get('https://www.worldservants.nl/actieplatform_ajax/group_members/2020-55');
+          data = data.data.split('<div class="actieplatform-top-ten-overlay"').map(user => {
+            return {
+              name: user,
+              photo: 'test.jpg',
+            }
+          });
+          return data;
+        }
+      },
       page: {
         type: new GraphQLList(Page),
         args: {

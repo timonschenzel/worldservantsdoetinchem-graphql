@@ -17,6 +17,7 @@
     "babel-register": "^6.4.3",
     "babel-relay-plugin": "^0.6.3",
     "bluebird": "^3.2.1",
+    "cheerio": "^1.0.0-rc.3",
     "dotenv": "^4.0.0",
     "express": "^4.13.4",
     "express-graphql": "^0.4.4",

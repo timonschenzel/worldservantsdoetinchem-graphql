@@ -1,4 +1,5 @@
 const axios = require('axios');
+const cheerio = require('cheerio');
 
 let {
   GraphQLObjectType,
@@ -163,13 +164,26 @@ const Query = new GraphQLObjectType({
         },
         async resolve (root, args) {
           let data = await axios.get('https://www.worldservants.nl/actieplatform_ajax/group_members/2020-55');
-          data = data.data.split('<div class="actieplatform-top-ten-overlay"').map(user => {
-            return {
-              name: user,
-              photo: 'test.jpg',
-            }
+          let rawHtml = data.data;
+          let html = cheerio.load(rawHtml);
+          let person = {};          
+          
+          html('div.actieplatform-top-ten-container').each(function (index, element) {
+            console.log(html(element).find('img').first().html());
+            // person.name = element.find('div.high-title').find('h3').text();
+            // person.photo = element.find('img').attr('data-source');
           });
-          return data;
+          
+          console.log(person);
+          return person;
+          
+          // data = data.data.split('<div class="actieplatform-top-ten-overlay"').map(user => {
+          //   return {
+          //     name: user,
+          //     photo: 'test.jpg',
+          //   }
+          // });
+          // return data;
         }
       },
       page: {

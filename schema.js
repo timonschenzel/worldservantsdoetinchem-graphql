@@ -165,25 +165,23 @@ const Query = new GraphQLObjectType({
         async resolve (root, args) {
           let data = await axios.get('https://www.worldservants.nl/actieplatform_ajax/group_members/2020-55');
           let rawHtml = data.data;
-          let html = cheerio.load(rawHtml);
-          let person = {};          
+          let $ = cheerio.load(rawHtml);
+          let persons = [];
           
-          html('div.actieplatform-top-ten-container').each(function (index, element) {
-            console.log(html(element).find('img').first().html());
-            // person.name = element.find('div.high-title').find('h3').text();
-            // person.photo = element.find('img').attr('data-source');
+          $('div.actieplatform-top-ten-container').each(function (index, element) {
+            persons.push({
+              name: $(this).find('div.high-title > h3.white').first().text(),
+              photo: $(this).find('img').first().data('src'),
+            });
           });
-          
-          console.log(person);
-          return person;
-          
-          // data = data.data.split('<div class="actieplatform-top-ten-overlay"').map(user => {
-          //   return {
-          //     name: user,
-          //     photo: 'test.jpg',
-          //   }
-          // });
-          // return data;
+
+          if (args.name) {
+            return persons.filter(person => {
+              return person.name == args.name;
+            });
+          }
+
+          return persons;
         }
       },
       page: {

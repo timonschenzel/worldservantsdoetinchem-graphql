@@ -201,7 +201,7 @@ const Query = new GraphQLObjectType({
           },
         },
         resolve (root, args) {
-          return Db.models.page.findAll({ where: args });
+          return Db.models.page.findAll({ where: args, order: [['position', 'asc']]});
         }
       },
       pageLanguage: {

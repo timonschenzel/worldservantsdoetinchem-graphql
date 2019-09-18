@@ -40,7 +40,19 @@ const Person = new GraphQLObjectType({
         resolve (person) {
           return person.photo;
         }
-      }
+      },
+      sponsorUrl: {
+        type: GraphQLString,
+        resolve (person) {
+          return person.sponsorUrl;
+        }
+      },
+      sponsorText: {
+        type: GraphQLString,
+        resolve (person) {
+          return person.sponsorText;
+        }
+      },
     }
   }
 });
@@ -610,6 +622,8 @@ const Query = new GraphQLObjectType({
             persons.push({
               name: $(this).find('div.high-title > h3.white').first().text(),
               photo: $(this).find('img').first().data('src'),
+              sponsorUrl: `https://www.worldservants.nl${$(this).find('div.actieplatform-top-ten-overlay a').attr('href')}`,
+              sponsorText: $(this).find('div.actieplatform-top-ten-overlay a').text()
             });
           });
 

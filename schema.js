@@ -687,7 +687,7 @@ const Query = new GraphQLObjectType({
           },
         },
         resolve (root, args) {
-          return Db.models.case.findAll({ where: args, order: [['position', 'asc']]});
+          return Db.models.case.findAll({ where: args, order: [['case_id', 'desc']]});
         }
       },
       caseLanguage: {
@@ -730,7 +730,7 @@ const Query = new GraphQLObjectType({
           },
         },
         resolve (root, args) {
-          return Db.models.newsItem.findAll({ where: args, order: [['position', 'asc']]});
+          return Db.models.newsItem.findAll({ where: args, order: [['news_id', 'desc']]});
         }
       },
       newsItemLanguage: {
@@ -773,7 +773,7 @@ const Query = new GraphQLObjectType({
           },
         },
         resolve (root, args) {
-          return Db.models.sponsor.findAll({ where: args, order: [['position', 'asc']]});
+          return Db.models.sponsor.findAll({ where: args, order: [['sponsor_id', 'asc']]});
         }
       },
       sponsorLanguage: {

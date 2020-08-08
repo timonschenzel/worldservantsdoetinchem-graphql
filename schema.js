@@ -613,7 +613,7 @@ const Query = new GraphQLObjectType({
           },
         },
         async resolve (root, args) {
-          let data = await axios.get('https://www.worldservants.nl/actieplatform_ajax/group_members/2020-55');
+          let data = await axios.get('https://www.worldservants.nl/actieplatform_ajax/group_members/2021-55');
           let rawHtml = data.data;
           let $ = cheerio.load(rawHtml);
           let persons = [];
